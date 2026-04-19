@@ -1,0 +1,156 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  width: 350px;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Arial, sans-serif;
+  font-size: 13px;
+  color: #222;
+  background: #fff;
+}
+
+.header {
+  background: #c00;
+  color: #fff;
+  padding: 12px 14px;
+  border-bottom: 2px solid #900;
+}
+
+.title-en {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.title-ar {
+  margin: 6px 0 0;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.main {
+  padding: 12px 14px 8px;
+}
+
+.row-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.row-check input {
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.label-pair {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.label-block {
+  margin-bottom: 6px;
+}
+
+.label-en {
+  font-weight: 600;
+  color: #333;
+}
+
+.label-ar {
+  font-size: 12px;
+  color: #555;
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.control {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font: inherit;
+  background: #fff;
+}
+
+.slider-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.slider-row input[type="range"] {
+  flex: 1;
+}
+
+.value-badge {
+  min-width: 44px;
+  text-align: center;
+  font-weight: 600;
+  color: #c00;
+  font-size: 13px;
+}
+
+.preview-section {
+  margin-top: 4px;
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  background: #fafafa;
+}
+
+.preview-heading {
+  margin-bottom: 8px;
+}
+
+.preview-text {
+  margin: 0;
+  text-align: right;
+  word-break: break-word;
+}
+
+.btn-reset {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 4px;
+  border: none;
+  border-radius: 4px;
+  background: #c00;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-reset:hover {
+  background: #a00;
+}
+
+.btn-reset:active {
+  background: #800;
+}
+
+.footer {
+  padding: 8px 14px 12px;
+  border-top: 1px solid #eee;
+  background: #fff;
+}
+
+.help {
+  margin: 0 0 6px;
+  font-size: 11px;
+  color: #666;
+  line-height: 1.45;
+}
+
+.help-ar {
+  margin-bottom: 0;
+}

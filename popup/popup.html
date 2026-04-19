@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>YouTube Arabic Font Fixer</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="header">
+      <h1 class="title-en" dir="ltr">YouTube Arabic Font Fixer</h1>
+      <p class="title-ar" dir="rtl">مصحح خط عربي ليوتيوب</p>
+    </header>
+
+    <main class="main">
+      <label class="row row-check">
+        <input type="checkbox" id="enabled" />
+        <span class="label-pair">
+          <span class="label-en" dir="ltr">Enable extension</span>
+          <span class="label-ar" dir="rtl">تفعيل الإضافة</span>
+        </span>
+      </label>
+
+      <div class="field">
+        <div class="label-pair label-block">
+          <span class="label-en" dir="ltr">Font family</span>
+          <span class="label-ar" dir="rtl">عائلة الخط</span>
+        </div>
+        <select id="fontFamily" class="control"></select>
+      </div>
+
+      <div class="field">
+        <div class="label-pair label-block">
+          <span class="label-en" dir="ltr">Font size</span>
+          <span class="label-ar" dir="rtl">حجم الخط</span>
+        </div>
+        <div class="slider-row">
+          <input type="range" id="fontSize" min="12" max="32" step="1" class="control" />
+          <span id="fontSizeValue" class="value-badge" aria-live="polite">16px</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="label-pair label-block">
+          <span class="label-en" dir="ltr">Font weight</span>
+          <span class="label-ar" dir="rtl">سمك الخط</span>
+        </div>
+        <select id="fontWeight" class="control"></select>
+      </div>
+
+      <div class="field">
+        <div class="label-pair label-block">
+          <span class="label-en" dir="ltr">Line height</span>
+          <span class="label-ar" dir="rtl">ارتفاع السطر</span>
+        </div>
+        <select id="lineHeight" class="control"></select>
+      </div>
+
+      <section class="preview-section" aria-label="Preview">
+        <div class="label-pair label-block preview-heading">
+          <span class="label-en" dir="ltr">Preview</span>
+          <span class="label-ar" dir="rtl">معاينة</span>
+        </div>
+        <p id="preview" class="preview-text" dir="rtl">
+          هذا مثال على النص العربي في يوتيوب
+        </p>
+      </section>
+
+      <button type="button" id="reset" class="btn-reset">Reset to defaults / إعادة الضبط</button>
+    </main>
+
+    <footer class="footer">
+      <p class="help" dir="ltr">
+        Settings are saved automatically. Open tabs update when you change options. If a page looks
+        wrong, refresh the tab.
+      </p>
+      <p class="help help-ar" dir="rtl">
+        تُحفظ الإعدادات تلقائياً. إذا لم يتغير المظهر، حدّث الصفحة.
+      </p>
+    </footer>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
