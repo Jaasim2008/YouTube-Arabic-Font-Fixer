@@ -94,24 +94,6 @@ When published, install the signed add-on from [Firefox Add-ons](https://addons.
 
 To verify messaging: open two YouTube tabs, change settings, confirm both update (or refresh a tab if the content script was not yet injected).
 
-## Troubleshooting
-
-| Issue | What to try |
-|--------|-------------|
-| Nothing changes | Extension enabled in the popup; URL is under `youtube.com`. Reload the tab. |
-| Only some text changes | Much of YouTube lives in **Shadow DOM**; document-level CSS cannot style every node. |
-| Styles flicker | SPA updates the DOM; the extension reapplies on navigation/mutations. Refresh if needed. |
-| Tab did not update | New tab may not have injected the script yet — reload once. |
-
-## Publishing
-
-1. [Firefox Add-ons Developer Hub](https://addons.mozilla.org/developers/) — sign in with a Firefox Account.
-2. Zip the extension so **`manifest.json` is at the root** of the archive.
-3. Submit source as required; this project needs **no** minification or build notes unless you change that.
-4. Match your **license** and **privacy story** to what you declare on AMO.
-
-See [Extension Workshop — Publish](https://extensionworkshop.com/documentation/publish/) for the full flow.
-
 ## Contributing
 
 - **Issues**: Bug reports and feature ideas are welcome (include Firefox version and steps to reproduce).
