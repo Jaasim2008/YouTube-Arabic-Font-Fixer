@@ -1,64 +1,127 @@
 # YouTube Arabic Font Fixer
 
-Firefox extension (Manifest V2) that makes Arabic text on YouTube easier to read by letting you set **font family**, **size**, **weight**, and **line height**. Settings apply across video pages, search, comments, channels, playlists, and captions where YouTube exposes those elements to page-level CSS.
+Firefox extension (**Manifest V2**) that improves **Arabic readability on YouTube** by letting you control **font family**, **size** (12–32px), **weight**, and **line height**. Settings are stored locally and applied on `youtube.com` via a content script that injects CSS.
 
-## Problem
+**Open source** — contributions, issues, and forks are welcome.
 
-Arabic text on YouTube is often small and uses fonts that are hard to read. This add-on injects custom CSS on `youtube.com` so you can tune typography for Arabic (and mixed) text without changing global browser fonts.
+## Contents
 
-## Installation
+- [Why this exists](#why-this-exists)
+- [Features](#features)
+- [Repository layout](#repository-layout)
+- [Permissions and privacy](#permissions-and-privacy)
+- [Install from source](#install-from-source)
+- [Usage](#usage)
+- [Development](#development)
+- [Troubleshooting](#troubleshooting)
+- [Publishing](#publishing)
+- [Contributing](#contributing)
+- [License](#license)
 
-### Temporary (development)
+## Why this exists
 
-1. Open Firefox and go to `about:debugging#/runtime/this-firefox`.
-2. Click **This Firefox** → **Load Temporary Add-on…**.
-3. Select the `manifest.json` file inside this folder (`youtube-arabic-font/manifest.json`).
+Arabic text on YouTube is often **too small** or uses **fonts that are hard to read**. This add-on injects stylesheet rules on YouTube pages so you can tune typography **without changing global browser fonts**. It does not alter video playback or YouTube accounts.
 
-Temporary add-ons are removed when Firefox closes unless you reload them.
+## Features
 
-### Permanent
+- **On/off** without uninstalling
+- **12 font stacks** (e.g. Traditional Arabic, Tahoma, Noto Naskh/Sans, Amiri, Cairo, Tajawal, …)
+- **Font size** slider: 12–32px (default 16px)
+- **Font weight**: Normal, 500, 600, Bold
+- **Line height**: 1.4, 1.6, 1.8, 2.0
+- **Bilingual popup** (English / Arabic labels) with **live preview** (`هذا مثال على النص العربي في يوتيوب`)
+- **Persistent settings** via `browser.storage.local`
+- **Instant updates** to open YouTube tabs when options change
+- Handles **SPA navigation** and **dynamic content** (observers + re-injected styles)
 
-- Install a signed `.xpi` from [addons.mozilla.org](https://addons.mozilla.org/) once the extension is published, or
-- Use **Firefox Developer Edition** / **Nightly** with unsigned extensions if you sign your own build (advanced).
+Targets include titles, descriptions, `yt-formatted-string`, comments, channel names, common search/playlist renderers, and caption segments (`.ytp-caption-segment`) **where page-level CSS can reach**. YouTube’s Shadow DOM can limit what any extension can style; see [Troubleshooting](#troubleshooting).
+
+## Repository layout
+
+```text
+youtube-arabic-font/
+├── manifest.json          # MV2 manifest, gecko id + data_collection_permissions
+├── content.js             # Injects CSS, observers, messaging
+├── popup/
+│   ├── popup.html
+│   ├── popup.css
+│   └── popup.js
+├── icons/
+│   ├── icon-48.png
+│   └── icon-96.png
+└── README.md
+```
+
+There is **no build step**: plain HTML, CSS, and JavaScript.
+
+## Permissions and privacy
+
+| Permission | Purpose |
+|------------|---------|
+| `storage` | Save your font settings between sessions |
+| `*://*.youtube.com/*` | Apply styles and message open YouTube tabs from the popup |
+
+The manifest declares **`data_collection_permissions`: `none`** (no built-in data collection for transmission). This project does **not** ship analytics or remote servers; settings stay in **Firefox’s local storage** on your device.
+
+## Install from source
+
+### Temporary load (good for development)
+
+1. Clone or download this repository.
+2. Open Firefox → `about:debugging#/runtime/this-firefox`.
+3. **This Firefox** → **Load Temporary Add-on…**
+4. Select `youtube-arabic-font/manifest.json`.
+
+Temporary add-ons are cleared when Firefox exits unless you load them again.
+
+### From AMO (recommended for end users)
+
+When published, install the signed add-on from [Firefox Add-ons](https://addons.mozilla.org/) (search for the listing name or use the link from the project maintainer).
 
 ## Usage
 
 1. Open any `https://www.youtube.com` page.
-2. Click the toolbar icon to open the popup.
-3. Toggle **Enable extension**, pick **Font family**, **Font size** (12–32px), **Font weight**, and **Line height**.
-4. Changes save automatically and update open YouTube tabs. Use the **Preview** area to see sample Arabic text with your settings.
-5. **Reset to defaults** restores built-in defaults (16px, Traditional Arabic stack, normal weight, line height 1.6, extension on).
+2. Click the toolbar icon.
+3. Adjust **Enable**, **Font family**, **Size**, **Weight**, and **Line height**.
+4. Changes save automatically; open YouTube tabs update when possible.
+5. **Reset** restores defaults (16px, Traditional Arabic stack, normal weight, line height 1.6, enabled).
 
-## Features
+## Development
 
-- Enable/disable without uninstalling
-- Twelve Arabic-capable font stacks (Traditional Arabic, Tahoma, Noto, Amiri, Cairo, Tajawal, etc.)
-- Font size slider 12–32px (default 16px)
-- Font weight: Normal, 500, 600, Bold
-- Line height: 1.4, 1.6, 1.8, 2.0
-- Bilingual popup (English / Arabic labels)
-- Live preview string: `هذا مثال على النص العربي في يوتيوب`
-- Persists with `browser.storage.local`
-- Targets titles, descriptions, formatted strings, comments, channel names, common search/playlist renderers, and caption segments (`.ytp-caption-segment`)
+- **Minimum**: Firefox with WebExtensions (same profile as for testing).
+- **Linting**: Optional; no bundler required.
+- After editing files, reload the add-on on `about:debugging` or use **Reload** on the temporary extension card.
+
+To verify messaging: open two YouTube tabs, change settings, confirm both update (or refresh a tab if the content script was not yet injected).
 
 ## Troubleshooting
 
 | Issue | What to try |
 |--------|-------------|
-| Nothing changes | Confirm the extension is enabled (checkbox) and you are on `youtube.com`. Reload the tab once. |
-| Only some text changes | YouTube uses Shadow DOM in many places. Page-level CSS cannot reach every internal subtree; some UI may not be styleable from a content script. |
-| Styles flash or disappear | YouTube’s SPA updates the DOM often; the extension reapplies styles on navigation and mutations. If a page glitches, refresh. |
-| Open tab did not update | The tab may not have injected the content script yet (e.g. just opened). Reload the page or switch away and back. |
-| Temporary add-on disappeared | Reload the extension from `about:debugging` after restarting Firefox. |
+| Nothing changes | Extension enabled in the popup; URL is under `youtube.com`. Reload the tab. |
+| Only some text changes | Much of YouTube lives in **Shadow DOM**; document-level CSS cannot style every node. |
+| Styles flicker | SPA updates the DOM; the extension reapplies on navigation/mutations. Refresh if needed. |
+| Tab did not update | New tab may not have injected the script yet — reload once. |
 
-## Publishing on AMO (summary)
+## Publishing
 
-1. Create a [Firefox Add-ons](https://addons.mozilla.org/developers/) developer account.
-2. Zip the extension directory (include `manifest.json`, `content.js`, `popup/`, `icons/`, and this `README` as needed).
-3. Submit the source (and build instructions if you minify or bundle — this project is plain source).
-4. Provide an accurate listing: permissions `storage` and `*://*.youtube.com/*` are required to save settings and style YouTube pages.
-5. Respond to reviewer questions; after approval, distribute the signed XPI or list it publicly.
+1. [Firefox Add-ons Developer Hub](https://addons.mozilla.org/developers/) — sign in with a Firefox Account.
+2. Zip the extension so **`manifest.json` is at the root** of the archive.
+3. Submit source as required; this project needs **no** minification or build notes unless you change that.
+4. Match your **license** and **privacy story** to what you declare on AMO.
+
+See [Extension Workshop — Publish](https://extensionworkshop.com/documentation/publish/) for the full flow.
+
+## Contributing
+
+- **Issues**: Bug reports and feature ideas are welcome (include Firefox version and steps to reproduce).
+- **Pull requests**: Keep changes focused; match existing style; test on YouTube (video page, search, comments).
+- **Translations**: The popup is English + Arabic; improvements to wording or RTL layout are appreciated.
+
+Please follow [Mozilla’s add-on policies](https://extensionworkshop.com/documentation/publish/add-on-policies/) when contributing.
 
 ## License
 
-You may use and modify this project for personal or open-source distribution in line with Mozilla’s add-on policies.
+This project is **open source**. Add a `LICENSE` file at the root of the repository with the license you chose (for example **MIT**), and keep it **aligned** with the license you select on GitHub and on [addons.mozilla.org](https://addons.mozilla.org/) if you publish there.
+
+If you are not the sole author, ensure you have the right to license contributions under those terms.
