@@ -2,7 +2,7 @@
 
 Firefox extension (**Manifest V2**) that improves **Arabic readability on YouTube** by letting you control **font family**, **size** (12–32px), **weight**, and **line height**. Settings are stored locally and applied on `youtube.com` via a content script that injects CSS.
 
-**Open source** — contributions, issues, and forks are welcome.
+**Open source**: contributions, issues, and forks are welcome.
 
 ## Contents
 
